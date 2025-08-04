@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        FlippedMoving();
     }
 
     private void FixedUpdate()
@@ -27,5 +27,17 @@ public class PlayerController : MonoBehaviour
     void PlayerMoving()
     {
         player.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed;
+    }
+
+    void FlippedMoving()
+    {
+        if(Input.GetAxis("Horizontal") < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (Input.GetAxis("Horizontal") > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 }
