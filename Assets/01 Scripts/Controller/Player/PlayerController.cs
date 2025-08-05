@@ -5,28 +5,39 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Settings")]
-    Rigidbody2D player;
+    public Rigidbody2D playerRB;
     [SerializeField] float speed;
+    public PlayerAnimation playerAnimation;
+    PlayerStateMachine playerStateMachine;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Rigidbody2D>();
+        playerRB = GetComponent<Rigidbody2D>();
+        playerAnimation = GetComponent<PlayerAnimation>();
+        playerStateMachine = GetComponent<PlayerStateMachine>();
+
+        playerStateMachine.ChangeState(new MovementState(this, playerStateMachine));
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerStateMachine.UpdateState();
         FlippedMoving();
+        playerAnimation.UpdateBlendTree();
+
     }
 
-    private void FixedUpdate()
+    public void PlayerMoving()
     {
-        PlayerMoving();
-    }
+        Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-    void PlayerMoving()
-    {
-        player.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed;
+        if (movement.magnitude > 1)
+        {
+            movement = movement.normalized;
+        }
+        playerRB.velocity = movement * speed;
     }
 
     void FlippedMoving()
