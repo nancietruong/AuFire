@@ -9,6 +9,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
     PlayerStateMachine playerStateMachine;
+    [SerializeField] GunBase gun;
+    SpriteRenderer playerSpriteRenderer;
+    public void Init()
+    {
+        if (gun == null)
+        {
+            gun = GetComponentInChildren<GunBase>();
+        }
+        gun.Init(this);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +26,7 @@ public class PlayerController : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         playerStateMachine.ChangeState(new MovementState(this, playerStateMachine));
     }
@@ -26,8 +37,12 @@ public class PlayerController : MonoBehaviour
         playerStateMachine.UpdateState();
         FlippedMoving();
         playerAnimation.UpdateBlendTree();
-
+        if (Input.GetMouseButton(1))
+        {
+            gun.Shoot();
+        }
     }
+
 
     public void PlayerMoving()
     {
@@ -44,11 +59,11 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetAxis("Horizontal") < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            playerSpriteRenderer.transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (Input.GetAxis("Horizontal") > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            playerSpriteRenderer.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 }
