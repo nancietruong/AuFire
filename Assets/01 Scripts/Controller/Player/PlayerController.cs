@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
     PlayerStateMachine playerStateMachine;
-    [SerializeField] GunBase gun;
+    public GunBase gun;
     SpriteRenderer playerSpriteRenderer;
     public void Init()
     {

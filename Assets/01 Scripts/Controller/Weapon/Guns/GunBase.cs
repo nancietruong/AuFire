@@ -38,5 +38,10 @@ public abstract class GunBase : MonoBehaviour
         }
     }
 
+    public virtual void changeBullet(BulletBase newBullet)
+    {
+        this.bulletPrefab = newBullet;
+    }
+
     public abstract void Shoot();
 }
