@@ -11,6 +11,14 @@ public class PlayerController : MonoBehaviour
     PlayerStateMachine playerStateMachine;
     public GunBase gun;
     SpriteRenderer playerSpriteRenderer;
+
+    [Header("Dodge Roll Settings")]
+    [SerializeField] float dodgeRollSpeed;
+    public float dodgeRollDuration;
+    public float dodgeRollCooldown;
+    [SerializeField] public bool isDodging = false;
+
+    private Vector2 lastMoveDirection = Vector2.right;
     public void Init()
     {
         if (gun == null)
@@ -41,6 +49,8 @@ public class PlayerController : MonoBehaviour
         {
             gun.Shoot();
         }
+
+        PlayerDodgeRoll();
     }
 
 
@@ -48,11 +58,19 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        if (movement.magnitude > 1)
+        if (movement.magnitude > 0.01f)
         {
-            movement = movement.normalized;
+            lastMoveDirection = movement.normalized;
         }
-        playerRB.velocity = movement * speed;
+
+        if (!isDodging)
+        {
+            if (movement.magnitude > 1)
+            {
+                movement = movement.normalized;
+            }
+            playerRB.velocity = movement * speed;
+        }
     }
 
     void FlippedMoving()
@@ -64,6 +82,29 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetAxis("Horizontal") > 0)
         {
             playerSpriteRenderer.transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    public void PlayerDodgeRoll()
+    {
+        Vector2 currentInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (Input.GetKeyDown(KeyCode.Space) && !isDodging && currentInput.magnitude > 0.01f)
+        {
+            isDodging = true;
+            dodgeRollDuration = dodgeRollCooldown;
+            playerRB.velocity = lastMoveDirection * dodgeRollSpeed;
+        }
+
+        if (isDodging)
+        {
+            dodgeRollDuration -= Time.deltaTime;
+            playerRB.velocity = lastMoveDirection * dodgeRollSpeed;
+
+            if (dodgeRollDuration <= 0f)
+            {
+                isDodging = false;
+                playerRB.velocity = Vector2.zero;
+            }
         }
     }
 }

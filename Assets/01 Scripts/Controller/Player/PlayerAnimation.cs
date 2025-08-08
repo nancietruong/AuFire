@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     static readonly int SpeedHash = Animator.StringToHash("Speed");
+    static readonly int isRollingHash = Animator.StringToHash("isRolling");
 
     Animator animator;
     PlayerController player;
@@ -19,5 +20,10 @@ public class PlayerAnimation : MonoBehaviour
     public void UpdateBlendTree()
     {
         animator.SetFloat(SpeedHash, player.playerRB.velocity.sqrMagnitude);
+    }
+
+    public void SetRolling(bool isRolling)
+    {
+        animator.SetBool(isRollingHash, isRolling);
     }
 }

@@ -20,7 +20,12 @@ public class MovementState : IState
     public void Execute()
     {
         player.PlayerMoving();
-        
+
+        if (player.isDodging)
+        {
+            sm.ChangeState(new DodgeRollState(player, sm));
+        }
+
     }
 
     public void Exit()
