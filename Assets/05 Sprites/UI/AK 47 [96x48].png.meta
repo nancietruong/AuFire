@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ec57036f0fd997948be73fcb864f9331
+guid: 444600ba04b89d9468bd158577a52180
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -46,14 +46,14 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 0
-  alignment: 9
-  spritePivot: {x: 0.5279525, y: 0.29210338}
-  spritePixelsToUnits: 960
-  spriteBorder: {x: 464, y: 265, z: 289, w: 1153}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 2, y: 20, z: 17, w: 2}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weaponR1_0
+      name: AK 47 [96x48]_0
       rect:
         serializedVersion: 2
-        x: 475
-        y: 260
-        width: 1266
-        height: 620
+        x: 3
+        y: 21
+        width: 76
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,14 +124,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4db73ab95542f9489a6c07dde1cff59
-      internalID: -54467291
+      spriteID: f092e36f2fe9a4940bf7db347bfeb72b
+      internalID: -1761170594
       vertices: []
       indices: 
       edges: []
       weights: []
-    outline: []
-    physicsShape: []
+    outline:
+    - - {x: -29, y: 21}
+      - {x: -47, y: 15}
+      - {x: -47, y: 5}
+      - {x: -44, y: -1}
+      - {x: -30, y: -5}
+      - {x: 8, y: -5}
+      - {x: 33, y: 9}
+      - {x: 33, y: 21}
+    physicsShape:
+    - - {x: -29, y: 21}
+      - {x: -47, y: 15}
+      - {x: -47, y: 5}
+      - {x: -44, y: -1}
+      - {x: -30, y: -5}
+      - {x: 8, y: -5}
+      - {x: 33, y: 9}
+      - {x: 33, y: 21}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 1537655665
@@ -141,7 +157,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      weaponR1_0: -54467291
+      AK 47 [96x48]_0: -1761170594
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
