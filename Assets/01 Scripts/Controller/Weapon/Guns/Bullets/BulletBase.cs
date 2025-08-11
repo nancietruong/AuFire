@@ -20,7 +20,6 @@ public abstract class BulletBase : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
-
     public void Init(float speed, float damage, float lifetime, Vector2 direction)
     {
         this.speed = speed;

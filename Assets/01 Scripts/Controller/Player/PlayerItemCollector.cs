@@ -6,14 +6,16 @@ public class PlayerItemCollector : MonoBehaviour
 {
     public InventoryManager inventoryManager;
 
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Item"))
         {
-            Item item = collision.GetComponent<Item>();
-            if(item != null)
+            ItemToPickUp itemToPickUp = collision.GetComponent<ItemToPickUp>();
+            if(itemToPickUp != null)
             {
-                bool isItemAdded = inventoryManager.AddItem(item);
+                bool isItemAdded = inventoryManager.AddItem(itemToPickUp.itemData);
 
                 if (isItemAdded)
                 {

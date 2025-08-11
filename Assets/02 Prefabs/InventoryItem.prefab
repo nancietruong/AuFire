@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4249440291949035818}
   - component: {fileID: 4209291422151466544}
   m_Layer: 5
-  m_Name: InventoryItem1
+  m_Name: InventoryItem
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -54467291, guid: ec57036f0fd997948be73fcb864f9331, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -89,5 +89,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
-  img: {fileID: 0}
+  img: {fileID: 4249440291949035818}
   parentAfterDrag: {fileID: 0}

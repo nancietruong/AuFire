@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6444206448824975954}
   - component: {fileID: 5927530084917254478}
-  m_Layer: 0
+  - component: {fileID: 4569566243500010848}
+  - component: {fileID: 7655768913440203540}
+  m_Layer: 8
   m_Name: Pistol
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,8 +52,66 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletDamage: 5
   bulletLifetime: 3
-  fireCooldown: 0.2
+  fireCooldown: 1
   firePos: {fileID: 1876851341417344890}
+--- !u!114 &4569566243500010848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290014306469033837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08b7c3b59528cb4e8fa4695a5dec4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: 62750d60a88d45b4e870e4520dffd5b3, type: 2}
+--- !u!61 &7655768913440203540
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290014306469033837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.009384811, y: -0.046923995}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.68091667, y: 0.56829906}
+  m_EdgeRadius: 0
 --- !u!1 &6374746453897565009
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,12 +185,12 @@ SpriteRenderer:
   m_SortingLayerID: -919887937
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b90be73190aad1741b60bd6b5ac824c9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab637fca16625344b87a79aa61ebd48d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.909091, y: 2.909091}
+  m_Size: {x: 0.6666667, y: 0.6666667}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -161,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 8008849511450699209}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.97, y: -0.39, z: 0}
+  m_LocalPosition: {x: 0.56, y: 0.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

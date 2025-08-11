@@ -16,6 +16,18 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void InitItem(Item newItem)
     {
         item = newItem;
+        if (img == null)
+        {
+            Debug.LogError("InventoryItem: img is not assigned in the Inspector!", this);
+        }
+        if (newItem == null)
+        {
+            Debug.LogError("InventoryItem: newItem is null!");
+        }
+        else if (newItem.itemSprite == null)
+        {
+            Debug.LogWarning("InventoryItem: newItem.itemSprite is null for item: " + newItem.name, newItem);
+        }
         img.sprite = newItem.itemSprite;
     }
 

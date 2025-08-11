@@ -8,7 +8,11 @@ public class NormalGun : GunBase
     private void Update()
     {
         timer -= Time.deltaTime;
-        AimAtMouse();
+
+        if (player != null && this.transform.IsChildOf(player.transform))
+        {
+            AimAtMouse();
+        }
     }
 
     public override void Shoot()
