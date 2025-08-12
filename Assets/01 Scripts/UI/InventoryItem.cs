@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Item item;
 
     [Header("UI")]
     public Image img;
+    public Text countText;
 
-    public Transform parentAfterDrag;
+    [HideInInspector] public Transform parentAfterDrag;
+    [HideInInspector] public Item item;
+    [HideInInspector] public int count = 1;
 
     public void InitItem(Item newItem)
     {
@@ -29,6 +31,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             Debug.LogWarning("InventoryItem: newItem.itemSprite is null for item: " + newItem.name, newItem);
         }
         img.sprite = newItem.itemSprite;
+        SetCount();
+    }
+
+    public void SetCount()
+    {
+        countText.text = count.ToString();
+        bool isCountVisible = count > 1;
+        countText.gameObject.SetActive(isCountVisible);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

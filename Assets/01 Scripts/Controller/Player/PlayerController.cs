@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
     PlayerStateMachine playerStateMachine;
-    public GunBase gun;
     SpriteRenderer playerSpriteRenderer;
+    [Header("Gun Settings")]
+    public GunBase gun;
+    public GunManager gunManager;
+
+    [Header("Inventory Settings")]
+    InventoryManager inventoryManager;
 
     [Header("Dodge Roll Settings")]
     [SerializeField] float dodgeRollSpeed;
@@ -37,6 +43,21 @@ public class PlayerController : MonoBehaviour
         playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         playerStateMachine.ChangeState(new MovementState(this, playerStateMachine));
+        inventoryManager.OnSelectedItemChanged += OnInventoryItemSelected;
+    }
+
+    private void OnInventoryItemSelected(Item selectedItem)
+    {
+        if (selectedItem != null) return;
+
+        if (selectedItem.itemType == Item.ItemType.Weapon)
+        {
+            int gunIndex = gunManager.GetGunIndexByItem(selectedItem);
+            if (gunIndex >= 0)
+            {
+                gunManager.ChangeGun(gunIndex);
+            }
+        }
     }
 
     // Update is called once per frame

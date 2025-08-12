@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class GunBase : MonoBehaviour
 {
+    public Item item; 
 
     [SerializeField] protected BulletBase bulletPrefab;
 

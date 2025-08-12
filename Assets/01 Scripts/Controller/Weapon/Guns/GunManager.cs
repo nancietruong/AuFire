@@ -19,7 +19,7 @@ public class GunManager : MonoBehaviour
         }
     }
 
-    void changeGun(int newGunIndex)
+    public void ChangeGun(int newGunIndex)
     {
         if (newGunIndex < 0 || gunList.Count == 0 || newGunIndex >= gunList.Count || newGunIndex == currentGunIndex)
         {
@@ -34,9 +34,13 @@ public class GunManager : MonoBehaviour
         if (player != null) player.gun = gunList[currentGunIndex];
     }
 
-    private void Update()
+    public int GetGunIndexByItem(Item item)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) changeGun(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) changeGun(1);
+        for (int i = 0; i < gunList.Count; i++)
+        {
+            if (gunList[i].item == item)
+                return i;
+        }
+        return -1;
     }
 }

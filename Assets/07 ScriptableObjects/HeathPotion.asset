@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02cd889c68aae154b93f2693fddd5072, type: 3}
-  m_Name: Rifle
+  m_Name: HeathPotion
   m_EditorClassIdentifier: 
-  itemType: 1
-  actionType: 1
-  stackable: 0
-  itemSprite: {fileID: 25117150, guid: 9ad7b44e3253d5f4088b63f90fcb84bd, type: 3}
+  itemType: 0
+  actionType: 0
+  stackable: 1
+  itemSprite: {fileID: 21300000, guid: 28cd643389c25de4eb77f49567812e47, type: 3}
