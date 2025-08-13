@@ -69,6 +69,7 @@ public class InventoryManager : MonoBehaviour
         Item selectedItem = GetSelectedItem();
         OnSelectedItemChanged?.Invoke(selectedItem);
     }
+   
 
     public bool AddItem(Item item)
     {
@@ -92,6 +93,11 @@ public class InventoryManager : MonoBehaviour
             if (itemInSlot == null)
             {
                 SpawnNewItem(item, slot);
+                if (i == selectedSlotIndex)
+                {
+                    ChangeSelectedSlot(selectedSlotIndex);
+                    Debug.Log("Item added to selected slot " + selectedSlotIndex + " :" + item.name);
+                }
                 return true;
             }
         }

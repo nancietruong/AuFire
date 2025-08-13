@@ -13,10 +13,9 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer playerSpriteRenderer;
     [Header("Gun Settings")]
     public GunBase gun;
-    public GunManager gunManager;
 
     [Header("Inventory Settings")]
-    InventoryManager inventoryManager;
+    public InventoryManager inventoryManager;
 
     [Header("Dodge Roll Settings")]
     [SerializeField] float dodgeRollSpeed;
@@ -24,14 +23,20 @@ public class PlayerController : MonoBehaviour
     public float dodgeRollCooldown;
     [SerializeField] public bool isDodging = false;
 
+    [Header("Weapon Hierarchy")]
+    [SerializeField] private Transform gunsParent;
+
     private Vector2 lastMoveDirection = Vector2.right;
     public void Init()
     {
-        if (gun == null)
+        if (gun == null && gunsParent != null)
         {
-            gun = GetComponentInChildren<GunBase>();
+            gun = gunsParent.GetComponentInChildren<GunBase>();
         }
-        gun.Init(this);
+        if (gun != null)
+        {
+            gun.Init(this);
+        }
     }
 
     // Start is called before the first frame update
@@ -43,19 +48,34 @@ public class PlayerController : MonoBehaviour
         playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         playerStateMachine.ChangeState(new MovementState(this, playerStateMachine));
+
         inventoryManager.OnSelectedItemChanged += OnInventoryItemSelected;
     }
 
     private void OnInventoryItemSelected(Item selectedItem)
     {
-        if (selectedItem != null) return;
-
-        if (selectedItem.itemType == Item.ItemType.Weapon)
+        if (selectedItem == null || selectedItem.itemType != Item.ItemType.Weapon)
         {
-            int gunIndex = gunManager.GetGunIndexByItem(selectedItem);
-            if (gunIndex >= 0)
+            foreach (var weapon in gunsParent.GetComponentsInChildren<GunBase>(true))
             {
-                gunManager.ChangeGun(gunIndex);
+                weapon.gameObject.SetActive(false);
+            }
+            gun = null;
+            return;
+        }
+
+        GunBase[] allGuns = gunsParent.GetComponentsInChildren<GunBase>(true);
+        foreach (var weapon in allGuns)
+        {
+            if (weapon.item == selectedItem)
+            {
+                weapon.gameObject.SetActive(true);
+                gun = weapon;
+                gun.Init(this);
+            }
+            else
+            {
+                weapon.gameObject.SetActive(false);
             }
         }
     }
@@ -66,7 +86,7 @@ public class PlayerController : MonoBehaviour
         playerStateMachine.UpdateState();
         FlippedMoving();
         playerAnimation.UpdateBlendTree();
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0))
         {
             gun.Shoot();
         }
