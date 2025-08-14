@@ -48,11 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2920d4f95351836489962d990c272d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 0}
   bulletPrefab: {fileID: 2822495327766993943, guid: f4ebc6b3eddeeaa45bf8032fa68e30fa, type: 3}
   bulletSpeed: 10
   bulletDamage: 5
   bulletLifetime: 3
-  fireCooldown: 1
+  fireCooldown: 0.6
   firePos: {fileID: 1876851341417344890}
 --- !u!114 &4569566243500010848
 MonoBehaviour:
