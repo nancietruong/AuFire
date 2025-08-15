@@ -86,9 +86,13 @@ public class PlayerController : MonoBehaviour
         playerStateMachine.UpdateState();
         FlippedMoving();
         playerAnimation.UpdateBlendTree();
+
         if (Input.GetMouseButton(0))
         {
-            gun.Shoot();
+            if (gun != null && gun.item != null && gun.item.itemType == Item.ItemType.Weapon)
+            {
+                gun.Shoot();
+            }
         }
 
         PlayerDodgeRoll();

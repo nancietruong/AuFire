@@ -29,6 +29,8 @@ public class NormalGun : GunBase
         bulletInstance.Init(bulletSpeed, bulletDamage, bulletLifetime, firePos.right);
         bulletInstance.gameObject.SetActive(true);
 
+
+
         timer = fireCooldown;
     }
 }

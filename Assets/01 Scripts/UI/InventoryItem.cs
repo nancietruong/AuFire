@@ -43,8 +43,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        img.raycastTarget = false; // Disable raycast target to allow dragging
-        parentAfterDrag = this.transform.parent; // Store the current parent
+        img.raycastTarget = false; 
+        parentAfterDrag = this.transform.parent; 
         this.transform.SetParent(transform.root); // Move the item to the root of the canvas for easier dragging
     }
     public void OnDrag(PointerEventData eventData)
@@ -54,6 +54,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         img.raycastTarget = true;
-        this.transform.SetParent(parentAfterDrag); // Return the item to its original parent
+        this.transform.SetParent(parentAfterDrag); // Return the item to its new parent
+        this.transform.localPosition = Vector3.zero;
     }
 }

@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
     bool isMainInventoryOpen = false;
     public int maxStackSize = 10;
 
-    int selectedSlotIndex = -1;
+    public int selectedSlotIndex = -1;
 
     public event Action<Item> OnSelectedItemChanged;
     private void Start()
@@ -80,6 +80,10 @@ public class InventoryManager : MonoBehaviour
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < maxStackSize)
             {
+                if (!item.stackable)
+                {
+                    continue;
+                }
                 itemInSlot.count++;
                 itemInSlot.SetCount();
                 return true;
