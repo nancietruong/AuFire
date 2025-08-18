@@ -15,4 +15,4 @@ MonoBehaviour:
   itemType: 1
   actionType: 1
   stackable: 0
-  itemSprite: {fileID: 25117150, guid: 9ad7b44e3253d5f4088b63f90fcb84bd, type: 3}
+  itemSprite: {fileID: 1642300098, guid: a39f1e4e3f0be0f44a43aa5ac4857c0b, type: 3}

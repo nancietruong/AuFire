@@ -41,10 +41,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _OutlinePixel: 1.73
-    - _OutlineThinkness: 2.22
+    - _OutlinePixel: 1.45
+    - _OutlineThinkness: 1.23
     m_Colors:
-    - _OutlineColor: {r: 0, g: 0.9276434, b: 0.93207544, a: 0}
+    - _OutlineColor: {r: 0.035294116, g: 0.9285737, b: 1, a: 0}
+    - _OutlineColor2: {r: 2.0626752, g: 1.7219317, b: 2.0788696, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1573622025557350348
 MonoBehaviour:
