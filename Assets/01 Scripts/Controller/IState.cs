@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IState
+public interface IState<T> where T : MonoBehaviour
 {
-    void Enter();
+    void Enter(T owner);
 
-    void Execute();
-    void Exit();
+    void Execute(T owner);
+    void Exit(T owner);
 }

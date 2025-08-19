@@ -2,36 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DodgeRollState : IState
+public class DodgeRollState : IState<PlayerController>
 {
-    PlayerController p;
-    PlayerStateMachine sm;
     float timer;
-    public DodgeRollState(PlayerController player, PlayerStateMachine stateMachine)
+    public void Enter(PlayerController player)
     {
-        p = player;
-        sm = stateMachine;
+        player.playerAnimation.SetRolling(true);
+        timer = player.dodgeRollCooldown;
     }
 
-    public void Enter()
-    {
-        p.playerAnimation.SetRolling(true);
-        timer = p.dodgeRollCooldown;
-    }
-
-    public void Execute()
+    public void Execute(PlayerController player)
     {
 
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            sm.ChangeState(new MovementState(p, sm));
+            player.playerStateMachine.ChangeState(new MovementState());
         }
 
     }
 
-    public void Exit()
+    public void Exit(PlayerController player)
     {
-        p.playerAnimation.SetRolling(false);
+        player.playerAnimation.SetRolling(false);
     }
 }

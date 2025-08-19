@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D playerRB;
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
-    PlayerStateMachine playerStateMachine;
+
+    public StateMachine<PlayerController> playerStateMachine;
     SpriteRenderer playerSpriteRenderer;
     [Header("Gun Settings")]
     public GunBase gun;
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon Hierarchy")]
     [SerializeField] private Transform gunsParent;
 
+    MovementState movementState;
+
     private Vector2 lastMoveDirection = Vector2.right;
     public void Init()
     {
@@ -39,15 +42,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
-        playerStateMachine = GetComponent<PlayerStateMachine>();
         playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
 
-        playerStateMachine.ChangeState(new MovementState(this, playerStateMachine));
+    // Start is called before the first frame update
+    void Start()
+    {
+        playerStateMachine = new StateMachine<PlayerController>(this);
+        movementState = new MovementState();
+
+        playerStateMachine.ChangeState(movementState);
 
         inventoryManager.OnSelectedItemChanged += OnInventoryItemSelected;
     }

@@ -2,33 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementState : IState
+public class MovementState : IState<PlayerController>
 {
-    PlayerController player;
-    PlayerStateMachine sm;
-
-    public MovementState(PlayerController player, PlayerStateMachine sm)
-    {
-        this.player = player;
-        this.sm = sm;
-    }
-
-    public void Enter()
+    public void Enter(PlayerController player)
     {
     }
 
-    public void Execute()
+    public void Execute(PlayerController player)
     {
         player.PlayerMoving();
 
         if (player.isDodging)
         {
-            sm.ChangeState(new DodgeRollState(player, sm));
+            player.playerStateMachine.ChangeState(new DodgeRollState());
         }
 
     }
 
-    public void Exit()
+    public void Exit(PlayerController player)
     {
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyAnimation))]
 public class EnemyController : MonoBehaviour
 {
     [Header("Basic Settings")]
@@ -9,7 +10,8 @@ public class EnemyController : MonoBehaviour
     Vector2 movement;
     [SerializeField] float speed;
     [SerializeField] Transform player;
-    [SerializeField] float rotationSpeed;
+    EnemyAnimation enemyAnimation;
+    public StateMachine<EnemyController> enemyStateMachine;
 
     [Header("AI Settings")]
     [SerializeField] LayerMask layerMask, playerLayerMask;
@@ -18,12 +20,20 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         enemy = GetComponent<Rigidbody2D>();
+        enemyAnimation = GetComponent<EnemyAnimation>();
+    }
+
+    private void Start()
+    {
+        enemyStateMachine = new StateMachine<EnemyController>(this);
+        enemyStateMachine.ChangeState(new PatrolState());
     }
 
     private void Update()
     {
-        FindPlayer();
-        ChasePlayer();
+        enemyStateMachine.UpdateState();
+        FindPlayer();   
+        enemyAnimation.UpdateBlendTree(enemy.velocity.sqrMagnitude);
         if (isDetectObstacle())
         {
             player = null;
@@ -38,6 +48,7 @@ public class EnemyController : MonoBehaviour
                 player = null;
             }
         }
+
     }
 
     private void FixedUpdate()
@@ -45,16 +56,18 @@ public class EnemyController : MonoBehaviour
         enemy.velocity = movement * speed;
     }
 
-    void FindPlayer()
+    public bool FindPlayer()
     {
         Collider2D collider = Physics2D.OverlapCircle(transform.position, detectionRange, playerLayerMask);
         if (collider != null)
         {
             player = collider.transform;
+            return true;
         }
+        return false;
     }
 
-    void ChasePlayer()
+    public void ChasePlayer()
     {
         if (player == null)
         {
