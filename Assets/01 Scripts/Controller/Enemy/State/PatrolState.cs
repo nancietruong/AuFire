@@ -11,6 +11,8 @@ public class PatrolState : IState<EnemyController>
 
     public void Execute(EnemyController enemy)
     {
+
+        enemy.Patrol();
         if (enemy.FindPlayer())
         {
             enemy.enemyStateMachine.ChangeState(new ChaseState());

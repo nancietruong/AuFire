@@ -44,8 +44,8 @@ Material:
     - _OutlinePixel: 1.45
     - _OutlineThinkness: 1.23
     m_Colors:
-    - _OutlineColor: {r: 0.035294116, g: 0.9285737, b: 1, a: 0}
-    - _OutlineColor2: {r: 2.0626752, g: 1.7219317, b: 2.0788696, a: 0}
+    - _OutlineColor: {r: 0, g: 0.74435544, b: 1, a: 0}
+    - _OutlineColor2: {r: 1.9287682, g: 3.2452292, b: 2.5067036, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1573622025557350348
 MonoBehaviour:

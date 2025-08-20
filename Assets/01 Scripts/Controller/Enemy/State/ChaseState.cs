@@ -11,6 +11,12 @@ public class ChaseState : IState<EnemyController>
     public void Execute(EnemyController owner)
     {
         owner.ChasePlayer();
+        
+        if(owner.FindPlayer() == false)
+        {
+            owner.enemyStateMachine.ChangeState(new PatrolState());
+            return;
+        }
     }
 
     public void Exit(EnemyController owner)

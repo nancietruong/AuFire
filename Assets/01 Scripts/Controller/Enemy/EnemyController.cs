@@ -17,6 +17,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] LayerMask layerMask, playerLayerMask;
     [SerializeField] float detectionRange;
 
+
+    [Header("Wander Settings")]
+    [SerializeField] float wanderRadius = 3f;
+    [SerializeField] float wanderInterval = 2f;
+    Vector2 wanderTarget;
+    float wanderTimer;
+
     private void Awake()
     {
         enemy = GetComponent<Rigidbody2D>();
@@ -37,7 +44,6 @@ public class EnemyController : MonoBehaviour
         if (isDetectObstacle())
         {
             player = null;
-            movement = Vector2.zero;
             return;
         }
         FlipToPlayer();
@@ -48,7 +54,6 @@ public class EnemyController : MonoBehaviour
                 player = null;
             }
         }
-
     }
 
     private void FixedUpdate()
@@ -71,7 +76,6 @@ public class EnemyController : MonoBehaviour
     {
         if (player == null)
         {
-            movement = Vector2.zero;
             return;
         }
 
@@ -103,6 +107,21 @@ public class EnemyController : MonoBehaviour
         Debug.DrawRay(hit.point, hit.normal, Color.yellow);
 
         return true;
+    }
+
+    public void Patrol()
+    {
+        wanderTimer -= Time.deltaTime;
+
+        if (wanderTimer <= 0f || Vector2.Distance(transform.position, wanderTarget) < 0.2f)
+        {
+            Vector2 randomDirection = Random.insideUnitCircle.normalized * Random.Range(1f, wanderRadius);
+            wanderTarget = (Vector2)transform.position + randomDirection;
+            wanderTimer = wanderInterval;
+        }
+
+        Vector2 direction = (wanderTarget - (Vector2)transform.position).normalized;
+        movement = direction;
     }
 
     private void OnDrawGizmosSelected()
