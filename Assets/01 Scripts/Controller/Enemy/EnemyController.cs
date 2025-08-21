@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyAnimation))]
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, ITakeDamage
 {
     [Header("Basic Settings")]
     Rigidbody2D enemy;
@@ -12,6 +13,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] Transform player;
     EnemyAnimation enemyAnimation;
     public StateMachine<EnemyController> enemyStateMachine;
+
+    [Header("Health Settings")]
+    public float health;
+    public float maxHealth = 100f;
 
     [Header("AI Settings")]
     [SerializeField] LayerMask layerMask, playerLayerMask;
@@ -32,6 +37,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
+        health = maxHealth;
         enemyStateMachine = new StateMachine<EnemyController>(this);
         enemyStateMachine.ChangeState(new PatrolState());
     }
@@ -46,7 +52,6 @@ public class EnemyController : MonoBehaviour
             player = null;
             return;
         }
-        FlipToPlayer();
         if (player != null)
         {
             if (Vector2.Distance(transform.position, player.position) > detectionRange)
@@ -74,6 +79,8 @@ public class EnemyController : MonoBehaviour
 
     public void ChasePlayer()
     {
+
+        FlipToPlayer();
         if (player == null)
         {
             return;
@@ -113,6 +120,8 @@ public class EnemyController : MonoBehaviour
     {
         wanderTimer -= Time.deltaTime;
 
+        FlipToMovement();
+
         if (wanderTimer <= 0f || Vector2.Distance(transform.position, wanderTarget) < 0.2f)
         {
             Vector2 randomDirection = Random.insideUnitCircle.normalized * Random.Range(1f, wanderRadius);
@@ -123,6 +132,33 @@ public class EnemyController : MonoBehaviour
         Vector2 direction = (wanderTarget - (Vector2)transform.position).normalized;
         movement = direction;
     }
+
+    void FlipToMovement()
+    {
+        if (Mathf.Approximately(wanderTarget.x, transform.position.x)) return;
+        Vector3 scale = transform.localScale;
+        if (wanderTarget.x < transform.position.x)
+            scale.x = Mathf.Abs(scale.x) * -1f;
+        else
+            scale.x = Mathf.Abs(scale.x);
+        transform.localScale = scale;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+
 
     private void OnDrawGizmosSelected()
     {

@@ -48,13 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2920d4f95351836489962d990c272d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: 62750d60a88d45b4e870e4520dffd5b3, type: 2}
   bulletPrefab: {fileID: 2822495327766993943, guid: f4ebc6b3eddeeaa45bf8032fa68e30fa, type: 3}
   bulletSpeed: 10
   bulletDamage: 5
   bulletLifetime: 3
   fireCooldown: 0.6
   firePos: {fileID: 1876851341417344890}
+  muzzlePrefab: {fileID: 1945341326904600261, guid: 4f545c4ce67688c4eaa2b487374a657e, type: 3}
 --- !u!114 &4569566243500010848
 MonoBehaviour:
   m_ObjectHideFlags: 0

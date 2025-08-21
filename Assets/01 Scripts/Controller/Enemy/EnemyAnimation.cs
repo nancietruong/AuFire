@@ -18,4 +18,9 @@ public class EnemyAnimation : MonoBehaviour
     {
         animator.SetFloat(xVelocityHash, xVelocity);
     }
+
+    public void SetDead(bool isDead)
+    {
+        animator.SetBool(isDeadHash, isDead);
+    }
 }

@@ -6,6 +6,7 @@ public class PlayerAnimation : MonoBehaviour
 {
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int isRollingHash = Animator.StringToHash("isRolling");
+    static readonly int isDeadHash = Animator.StringToHash("isDead");
 
     Animator animator;
     PlayerController player;
@@ -25,5 +26,10 @@ public class PlayerAnimation : MonoBehaviour
     public void SetRolling(bool isRolling)
     {
         animator.SetBool(isRollingHash, isRolling);
+    }
+
+    public void SetDead(bool isDead)
+    {
+        animator.SetBool(isDeadHash, isDead);
     }
 }

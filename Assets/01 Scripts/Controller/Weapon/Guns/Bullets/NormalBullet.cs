@@ -8,6 +8,12 @@ public class NormalBullet : BulletBase
     {
         this.gameObject.SetActive(false);
         Debug.Log("NormalBullet hit: " + target.name);
+
+        ITakeDamage damageable = target.GetComponent<ITakeDamage>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

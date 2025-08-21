@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ITakeDamage
 {
     [Header("Player Settings")]
     public Rigidbody2D playerRB;
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
+
+    [Header("Player Health")]
+    public float health;
+    public float maxHealth = 100;
 
     public StateMachine<PlayerController> playerStateMachine;
     SpriteRenderer playerSpriteRenderer;
@@ -52,6 +56,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
         playerStateMachine = new StateMachine<PlayerController>(this);
         movementState = new MovementState();
 
@@ -158,6 +163,15 @@ public class PlayerController : MonoBehaviour
                 isDodging = false;
                 playerRB.velocity = Vector2.zero;
             }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Debug.Log("Player has died.");
         }
     }
 }

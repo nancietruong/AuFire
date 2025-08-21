@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 1776995605444922601}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.254, y: 0.17, z: 0}
+  m_LocalPosition: {x: 1.337, y: 0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -170,6 +170,7 @@ MonoBehaviour:
   bulletLifetime: 3
   fireCooldown: 0.5
   firePos: {fileID: 6136261684906510690}
+  muzzlePrefab: {fileID: 1945341326904600261, guid: 4f545c4ce67688c4eaa2b487374a657e, type: 3}
   numberOfBullets: 5
   spreadAngle: 15
 --- !u!114 &464577519557444310
