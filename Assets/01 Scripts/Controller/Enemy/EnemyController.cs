@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     [SerializeField] Transform player;
     EnemyAnimation enemyAnimation;
     public StateMachine<EnemyController> enemyStateMachine;
+    [SerializeField] MaterialTintColor materialTintColor;
 
     [Header("Health Settings")]
     public float health;
@@ -33,6 +34,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     {
         enemy = GetComponent<Rigidbody2D>();
         enemyAnimation = GetComponent<EnemyAnimation>();
+        materialTintColor = GetComponent<MaterialTintColor>();
     }
 
     private void Start()
@@ -147,6 +149,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     public void TakeDamage(float damage)
     {
         health -= damage;
+        materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
         if (health <= 0)
         {
             Die();

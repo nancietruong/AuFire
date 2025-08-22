@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     public Rigidbody2D playerRB;
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
+    [SerializeField] MaterialTintColor materialTintColor;
 
     [Header("Player Health")]
     public float health;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
         playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        materialTintColor = GetComponent<MaterialTintColor>();
     }
 
     // Start is called before the first frame update
@@ -109,6 +111,11 @@ public class PlayerController : MonoBehaviour, ITakeDamage
         }
 
         PlayerDodgeRoll();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            materialTintColor.SetTintColor(new Color(0, 1, 0, 1)); //green
+        }
     }
 
 
@@ -169,6 +176,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     public void TakeDamage(float damage)
     {
         health -= damage;
+        materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
         if (health <= 0)
         {
             Debug.Log("Player has died.");
