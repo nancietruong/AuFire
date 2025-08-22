@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     [Header("Health Settings")]
     public float health;
     public float maxHealth = 100f;
+    EnemyHealth enemyHealth;
 
     [Header("AI Settings")]
     [SerializeField] LayerMask layerMask, playerLayerMask;
@@ -35,6 +36,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         enemy = GetComponent<Rigidbody2D>();
         enemyAnimation = GetComponent<EnemyAnimation>();
         materialTintColor = GetComponent<MaterialTintColor>();
+        enemyHealth = GetComponentInChildren<EnemyHealth>();
     }
 
     private void Start()
@@ -150,6 +152,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     {
         health -= damage;
         materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
+        enemyHealth.UpdateHealthBar(health, maxHealth);
         if (health <= 0)
         {
             Die();
