@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     [Header("Player Health")]
     public float health;
     public float maxHealth = 100;
+    [SerializeField] PlayerHealth playerHealthUI;
 
     public StateMachine<PlayerController> playerStateMachine;
     SpriteRenderer playerSpriteRenderer;
@@ -177,6 +178,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     {
         health -= damage;
         materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
+        playerHealthUI.UpdateHealthBar(health, maxHealth);
         if (health <= 0)
         {
             Debug.Log("Player has died.");

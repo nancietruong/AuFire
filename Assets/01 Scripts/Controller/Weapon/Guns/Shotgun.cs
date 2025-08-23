@@ -58,6 +58,8 @@ public class Shotgun : GunBase
 
             BulletBase bulletInstance = ObjectPooling.Instance.GetCOMP<BulletBase>(bulletPrefab);
             bulletInstance.transform.position = firePos.position;
+
+            bulletInstance.transform.right = direction;
             bulletInstance.Init(bulletSpeed, bulletDamage, bulletLifetime, direction);
             bulletInstance.gameObject.SetActive(true);
         }

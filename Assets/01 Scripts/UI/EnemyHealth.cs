@@ -10,6 +10,7 @@ public class EnemyHealth : MonoBehaviour
     Image image;
     Color newHealthBarColor;
 
+
     Coroutine drainCoroutine;
     private void Awake()
     {

@@ -10,6 +10,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("UI")]
     public Image img;
     public Text countText;
+    public Color iColor;
 
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public Item item;
@@ -31,6 +32,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             Debug.LogWarning("InventoryItem: newItem.itemSprite is null for item: " + newItem.name, newItem);
         }
         img.sprite = newItem.itemSprite;
+
+        if (newItem.itemType == Item.ItemType.Key)
+        {
+            img.color = newItem.itemColor;
+        }
         SetCount();
     }
 

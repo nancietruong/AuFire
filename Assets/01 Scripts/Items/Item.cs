@@ -7,25 +7,30 @@ public class Item : ScriptableObject
 {
     [Header("Only for gameplay")]
     public ItemType itemType;
-    public ActionType actionType;
+
+    [Header("Key Settings (only if itemType == Key)")]
+    public KeyType keyType;
 
     [Header("Only for UI")]
     public bool stackable = true;
 
     [Header("Both")]
     public Sprite itemSprite;
+    public Color itemColor;
 
     public enum ItemType
     {
         None,
         Weapon,
-        Ammo
+        Ammo,
+        Key
     }
 
-    public enum ActionType
+    public enum KeyType
     {
         None,
-        Shoot,
-        Reload,
-    }    
+        Red,
+        Blue,
+        Green
+    }
 }

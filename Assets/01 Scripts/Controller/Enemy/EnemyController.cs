@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     EnemyAnimation enemyAnimation;
     public StateMachine<EnemyController> enemyStateMachine;
     [SerializeField] MaterialTintColor materialTintColor;
+    [SerializeField] Transform avatar;
 
     [Header("Health Settings")]
     public float health;
@@ -97,12 +98,12 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     void FlipToPlayer()
     {
         if (player == null) return;
-        Vector3 scale = transform.localScale;
+        Vector3 scale = avatar.transform.localScale;
         if (player.position.x < transform.position.x)
             scale.x = Mathf.Abs(scale.x) * -1f;
         else
             scale.x = Mathf.Abs(scale.x);
-        transform.localScale = scale;
+        avatar.transform.localScale = scale;
     }
 
     bool isDetectObstacle()
@@ -140,12 +141,12 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     void FlipToMovement()
     {
         if (Mathf.Approximately(wanderTarget.x, transform.position.x)) return;
-        Vector3 scale = transform.localScale;
+        Vector3 scale = avatar.transform.localScale;
         if (wanderTarget.x < transform.position.x)
             scale.x = Mathf.Abs(scale.x) * -1f;
         else
             scale.x = Mathf.Abs(scale.x);
-        transform.localScale = scale;
+        avatar.transform.localScale = scale;
     }
 
     public void TakeDamage(float damage)
@@ -164,7 +165,14 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         Destroy(gameObject);
     }
 
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        ITakeDamage damagable = collision.gameObject.GetComponent<ITakeDamage>();
+        if (damagable != null)
+        {
+            damagable.TakeDamage(20f);
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {
