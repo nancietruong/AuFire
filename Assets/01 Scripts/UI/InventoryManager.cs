@@ -66,7 +66,7 @@ public class InventoryManager : MonoBehaviour
         inventorySlots[newIndex].SelectSlot();
         selectedSlotIndex = newIndex;
 
-        Item selectedItem = GetSelectedItem();
+        Item selectedItem = GetSelectedItem(false);
         OnSelectedItemChanged?.Invoke(selectedItem);
     }
    
@@ -124,13 +124,29 @@ public class InventoryManager : MonoBehaviour
         mainInventory.SetActive(isMainInventoryOpen);
     }
 
-    public Item GetSelectedItem()
+    public Item GetSelectedItem(bool isUse)
     {
         if (selectedSlotIndex >= 0 && selectedSlotIndex < inventorySlots.Count)
         {
             InventoryItem itemInSlot = inventorySlots[selectedSlotIndex].GetComponentInChildren<InventoryItem>();
             if (itemInSlot != null)
-                return itemInSlot.item;
+            {
+
+                Item item = itemInSlot.item;
+                if (isUse)
+                {
+                    itemInSlot.count--;
+                    if (itemInSlot.count <= 0)
+                    {
+                        Destroy(itemInSlot.gameObject);
+                    }
+                    else
+                    {
+                        itemInSlot.SetCount();
+                    }
+                }
+                return item;
+            }
         }
         return null;
     }

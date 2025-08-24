@@ -7,6 +7,7 @@ public class Item : ScriptableObject
 {
     [Header("Only for gameplay")]
     public ItemType itemType;
+    public bool isConsumable;
 
     [Header("Key Settings (only if itemType == Key)")]
     public KeyType keyType;
@@ -33,4 +34,5 @@ public class Item : ScriptableObject
         Blue,
         Green
     }
+
 }

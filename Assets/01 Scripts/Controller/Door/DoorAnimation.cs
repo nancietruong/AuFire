@@ -8,6 +8,7 @@ public class DoorAnimation : MonoBehaviour
 
     Animator animator;
 
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -21,17 +22,5 @@ public class DoorAnimation : MonoBehaviour
     public void CloseDoor()
     {
         animator.SetBool(isOpenDoorHash, false);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            OpenDoor();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            CloseDoor();
-        }
     }
 }

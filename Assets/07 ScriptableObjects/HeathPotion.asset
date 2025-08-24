@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: HeathPotion
   m_EditorClassIdentifier: 
   itemType: 0
-  actionType: 0
+  isConsumable: 1
+  keyType: 0
   stackable: 1
   itemSprite: {fileID: 21300000, guid: 28cd643389c25de4eb77f49567812e47, type: 3}
+  itemColor: {r: 0, g: 0, b: 0, a: 0}
