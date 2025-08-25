@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7e08b3612b9a41b4c9014d0cc26be2d1
+guid: 19158d640b1ee084fbcd6473eb521e7c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,8 +47,8 @@ TextureImporter:
   spriteExtrude: 0
   spriteMeshType: 0
   alignment: 6
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 240
+  spritePivot: {x: 0, y: 0}
+  spritePixelsToUnits: 180
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -108,7 +108,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Wall_DR_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 903fe52dbf717bc4c8778ce98cf15d8c
+      internalID: -1635473606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +140,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wall_DR_0: -1635473606
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
