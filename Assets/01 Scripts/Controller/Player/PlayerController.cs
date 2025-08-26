@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, ITakeDamage
 {
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     public float health;
     public float maxHealth = 100;
     [SerializeField] PlayerHealth playerHealthUI;
+    public float potionHealAmount = 20f;
 
     public StateMachine<PlayerController> playerStateMachine;
     SpriteRenderer playerSpriteRenderer;
@@ -36,6 +38,9 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     MovementState movementState;
 
     private Vector2 lastMoveDirection = Vector2.right;
+
+    public event Action OnPlayerDeath;
+
     public void Init()
     {
         if (gun == null && gunsParent != null)
@@ -59,13 +64,14 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
+        ResetHealth();
         playerStateMachine = new StateMachine<PlayerController>(this);
         movementState = new MovementState();
 
         playerStateMachine.ChangeState(movementState);
 
         inventoryManager.OnSelectedItemChanged += OnInventoryItemSelected;
+        GameManager.OnGameReset += ResetHealth;
     }
 
     private void OnInventoryItemSelected(Item selectedItem)
@@ -88,6 +94,26 @@ public class PlayerController : MonoBehaviour, ITakeDamage
                 weapon.gameObject.SetActive(true);
                 gun = weapon;
                 gun.Init(this);
+                // Add cooldown when switching to this gun
+                var gunType = gun.GetType();
+                var timerField = gunType.GetField("timer", System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance);
+                var fireCooldownField = gunType.GetField("fireCooldown", System.Reflection.BindingFlags.NonPublic | 
+                    System.Reflection.BindingFlags.Instance | 
+                    System.Reflection.BindingFlags.FlattenHierarchy);
+                if (timerField != null && fireCooldownField != null)
+                {
+                    timerField.SetValue(gun, fireCooldownField.GetValue(gun));
+                }
+                else
+                {
+                    // fallback for protected fields
+                    gun.GetType().BaseType.GetField("timer", System.Reflection.BindingFlags.NonPublic | 
+                        System.Reflection.BindingFlags.Instance)
+                        ?.SetValue(gun, gunType.GetField("fireCooldown", System.Reflection.BindingFlags.NonPublic
+                        | System.Reflection.BindingFlags.Instance | 
+                        System.Reflection.BindingFlags.FlattenHierarchy)?.GetValue(gun));
+                }
             }
             else
             {
@@ -113,10 +139,22 @@ public class PlayerController : MonoBehaviour, ITakeDamage
 
         PlayerDodgeRoll();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            materialTintColor.SetTintColor(new Color(0, 1, 0, 1)); //green
+            Item selectedItem = inventoryManager.GetSelectedItem(false);
+            if (selectedItem != null && selectedItem.isConsumable && selectedItem.onUseItem == Item.ActionType.Heal)
+            {
+                
+                inventoryManager.GetSelectedItem(true);
+                Heal(potionHealAmount);
+            }
         }
+    }
+
+    void ResetHealth()
+    {
+        health = maxHealth;
+        playerHealthUI.UpdateHealthBar(health, maxHealth);
     }
 
 
@@ -179,9 +217,22 @@ public class PlayerController : MonoBehaviour, ITakeDamage
         health -= damage;
         materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
         playerHealthUI.UpdateHealthBar(health, maxHealth);
+        AudioManager.PlaySound(TypeOfSoundEffect.Hurt);
         if (health <= 0)
         {
-            Debug.Log("Player has died.");
+            OnPlayerDeath?.Invoke();
+            AudioManager.PlaySound(TypeOfSoundEffect.Death);
         }
+    }
+
+    public void Heal(float healAmount)
+    {
+        health += healAmount;
+        materialTintColor.SetTintColor(new Color(0, 1, 0, 1));
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        playerHealthUI.UpdateHealthBar(health, maxHealth);
     }
 }

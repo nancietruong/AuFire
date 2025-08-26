@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyAnimation))]
@@ -31,6 +30,12 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     [SerializeField] float wanderInterval = 2f;
     Vector2 wanderTarget;
     float wanderTimer;
+
+    [Header("Loot Settings")]
+    public List<LootItem> lootTable = new List<LootItem>();
+
+    private WaveManager waveManager;
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -149,19 +154,41 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         avatar.transform.localScale = scale;
     }
 
+    public void Init(WaveManager manager)
+    {
+        waveManager = manager;
+    }
+
     public void TakeDamage(float damage)
     {
+        if (isDead) return;
+
         health -= damage;
         materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
         enemyHealth.UpdateHealthBar(health, maxHealth);
         if (health <= 0)
         {
+            isDead = true;
+            if (waveManager != null)
+            {
+                waveManager.OnEnemyDied();
+            }
             Die();
         }
     }
 
     public void Die()
     {
+        foreach (LootItem item in lootTable)
+        {
+            if (Random.Range(0f, 100f) <= item.dropChance)
+            {
+                if (item.itemPrefab != null)
+                {
+                    Instantiate(item.itemPrefab, transform.position, Quaternion.identity);
+                }
+            }
+        }
         Destroy(gameObject);
     }
 

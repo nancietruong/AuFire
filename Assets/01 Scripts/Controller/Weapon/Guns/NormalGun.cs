@@ -13,8 +13,23 @@ public class NormalGun : GunBase
 
     private void OnEnable()
     {
-        // Reset pooledMuzzle reference and ensure it's inactive when switching guns
+        if (pooledMuzzle != null)
+            pooledMuzzle.SetActive(false);
+
         pooledMuzzle = null;
+
+        if (muzzleCoroutine != null)
+        {
+            StopCoroutine(muzzleCoroutine);
+            muzzleCoroutine = null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (pooledMuzzle != null)
+            pooledMuzzle.SetActive(false);
+
         if (muzzleCoroutine != null)
         {
             StopCoroutine(muzzleCoroutine);
@@ -61,17 +76,23 @@ public class NormalGun : GunBase
             {
                 StopCoroutine(muzzleCoroutine);
             }
+
             pooledMuzzle.SetActive(true);
             muzzleCoroutine = StartCoroutine(DisableMuzzleAfterDelay());
         }
 
         timer = fireCooldown;
+
+        AudioManager.PlaySound(TypeOfSoundEffect.Rifle);
     }
 
     private IEnumerator DisableMuzzleAfterDelay()
     {
         yield return new WaitForSeconds(muzzleFlashDuration);
+
         if (pooledMuzzle != null)
             pooledMuzzle.SetActive(false);
+
+        muzzleCoroutine = null;
     }
 }

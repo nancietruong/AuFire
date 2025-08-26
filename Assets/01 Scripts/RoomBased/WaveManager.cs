@@ -42,7 +42,7 @@ public class WaveManager : Singleton<WaveManager>
                 Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
                 GameObject enemy = Instantiate(enemyGroup.enemyPrefab, point.position, Quaternion.identity);
                 enemiesAlive++;
-                enemy.AddComponent<EnemyDeathListener>().Init(this);
+                enemy.GetComponent<EnemyController>().Init(this);
                 yield return new WaitForSeconds(enemyGroup.spawnRate);
             }
         }
@@ -54,30 +54,3 @@ public class WaveManager : Singleton<WaveManager>
     }
 }
 
-public class EnemyDeathListener : MonoBehaviour, ITakeDamage
-{
-    private WaveManager waveManager;
-    private bool isDead = false;
-
-    public void Init(WaveManager manager)
-    {
-        waveManager = manager;
-    }
-
-    public void TakeDamage(float dmg)
-    {
-        if (!isDead)
-        {
-            EnemyController ec = GetComponent<EnemyController>();
-            if (ec != null)
-            {
-                ec.TakeDamage(dmg);
-                if (ec.health <= 0)
-                {
-                    isDead = true;
-                    waveManager.OnEnemyDied();
-                }
-            }
-        }
-    }
-}

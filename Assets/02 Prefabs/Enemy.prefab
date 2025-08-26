@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2205619869682025486}
   - component: {fileID: 1405580727222583378}
   - component: {fileID: 4239783200547097585}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,9 @@ MonoBehaviour:
   detectionRange: 6
   wanderRadius: 3
   wanderInterval: 2
+  lootTable:
+  - itemPrefab: {fileID: 7975492365436951013, guid: a13ce813f7367ea4993fd86fd4cf7443, type: 3}
+    dropChance: 65
 --- !u!114 &1405580727222583378
 MonoBehaviour:
   m_ObjectHideFlags: 0

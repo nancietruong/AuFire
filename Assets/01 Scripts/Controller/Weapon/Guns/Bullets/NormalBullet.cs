@@ -7,8 +7,6 @@ public class NormalBullet : BulletBase
     public override void Boom(GameObject target)
     {
         this.gameObject.SetActive(false);
-        Debug.Log("NormalBullet hit: " + target.name);
-
         ITakeDamage damageable = target.GetComponent<ITakeDamage>();
         if (damageable != null)
         {

@@ -8,6 +8,7 @@ public class Item : ScriptableObject
     [Header("Only for gameplay")]
     public ItemType itemType;
     public bool isConsumable;
+    public ActionType onUseItem;
 
     [Header("Key Settings (only if itemType == Key)")]
     public KeyType keyType;
@@ -24,7 +25,8 @@ public class Item : ScriptableObject
         None,
         Weapon,
         Ammo,
-        Key
+        Key,
+        Potion
     }
 
     public enum KeyType
@@ -35,4 +37,9 @@ public class Item : ScriptableObject
         Green
     }
 
+    public enum ActionType
+    {
+        None,
+        Heal
+    }
 }
