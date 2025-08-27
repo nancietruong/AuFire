@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] GameObject gameOverScreen;
-
+    [SerializeField] GameObject winGameScreen;
     public void ShowGameOverScreen()
     {
         if (gameOverScreen != null)
@@ -17,11 +17,24 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public void ShowWinGameScreen()
+    {
+        if (winGameScreen != null)
+        {
+            winGameScreen.SetActive(true);
+        }
+
+    }
+
     void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
         if (gameOverScreen != null)
         {
             gameOverScreen.SetActive(false);
+        }
+        if (winGameScreen != null)
+        {
+            winGameScreen.SetActive(false);
         }
     }
 

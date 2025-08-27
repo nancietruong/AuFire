@@ -33,14 +33,29 @@ public class GameManager : Singleton<GameManager>
     private void HandlePlayerDeath()
     {
         UIManager.Instance.ShowGameOverScreen();
+        BackgroundMusic.Instance.PauseBackgroundMusic();
         State = GameState.GameOver;
     }
 
     public void ResetGame()
     {
         OnGameReset?.Invoke();
+        BackgroundMusic.Instance.PlayBackgroundMusic(true);
         State = GameState.Playing;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void WinGame()
+    {
+        UIManager.Instance.ShowWinGameScreen();
+        BackgroundMusic.Instance.PauseBackgroundMusic();
+        State = GameState.Paused;
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+        State = GameState.Paused;
     }
 
     private void OnDestroy()

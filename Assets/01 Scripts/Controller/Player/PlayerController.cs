@@ -243,6 +243,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
 
     public void Heal(float healAmount)
     {
+        AudioManager.PlaySound(TypeOfSoundEffect.UsePotion);
         health += healAmount;
         materialTintColor.SetTintColor(new Color(0, 1, 0, 1));
         if (health > maxHealth)

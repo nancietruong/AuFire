@@ -12,6 +12,9 @@ public enum TypeOfSoundEffect
     Roll,
     Key,
     UsePotion,
+    DoorOpen,
+    DoorClose,
+    Victory,
 }
 
 [System.Serializable]

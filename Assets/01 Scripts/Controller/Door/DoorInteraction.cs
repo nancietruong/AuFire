@@ -15,6 +15,15 @@ public class DoorInteraction : MonoBehaviour
         doorAnimation = GetComponent<DoorAnimation>();
     }
 
+    public void PlayDoorOpenSound()
+    {
+        AudioManager.PlaySound(TypeOfSoundEffect.DoorOpen);
+    }
+
+    public void PlayDoorCloseSound()
+    {
+        AudioManager.PlaySound(TypeOfSoundEffect.DoorClose);
+    }
 
     private void HandleDoorInteraction()
     {

@@ -15,6 +15,7 @@ public class RoomTrigger : MonoBehaviour
     public Transform[] spawnPoints;
     public DoorInteraction door;
     public GameObject keyPrefab;
+    public Transform spawnKey;
 
     bool isPlayerInRoom = false;
     BattleState battleState;
@@ -54,7 +55,8 @@ public class RoomTrigger : MonoBehaviour
         Debug.Log("Room Cleared: " + roomData.name);
         if (keyPrefab != null)
         {
-            Instantiate(keyPrefab, transform.position, Quaternion.identity);
+            Instantiate(keyPrefab, spawnKey.position, Quaternion.identity);
+            AudioManager.PlaySound(TypeOfSoundEffect.Key);
         }
     }
 }
