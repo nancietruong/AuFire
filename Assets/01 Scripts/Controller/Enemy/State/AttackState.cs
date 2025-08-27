@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChaseState : IState<EnemyController>
+public class AttackState : IState<EnemyController>
 {
-    public void Enter(EnemyController owner)
+    public void Enter(EnemyController enemy)
     {
     }
 
     public void Execute(EnemyController enemy)
     {
         if (GameManager.State != GameState.Playing) return;
-        enemy.ChasePlayer();
 
         if (enemy.player == null || Vector2.Distance(enemy.transform.position, enemy.player.position) > enemy.detectionRange)
         {
@@ -19,14 +18,15 @@ public class ChaseState : IState<EnemyController>
             return;
         }
 
-        if (Vector2.Distance(enemy.transform.position, enemy.player.position) <= enemy.attackRange)
+        if (Vector2.Distance(enemy.transform.position, enemy.player.position) > enemy.attackRange)
         {
-            enemy.enemyStateMachine.ChangeState(new AttackState());
+            enemy.enemyStateMachine.ChangeState(new ChaseState());
             return;
         }
+        enemy.Attack();
     }
 
-    public void Exit(EnemyController owner)
+    public void Exit(EnemyController enemy)
     {
     }
 }

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunOutline
-  m_Shader: {fileID: -6465566751694194690, guid: f7d727cde23601840855bc9add7b94fb, type: 3}
+  m_Name: BlueDoorHole
+  m_Shader: {fileID: -6465566751694194690, guid: 08510ab83f9f58649a92eafd383214f2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,8 +23,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Emission:
+        m_Texture: {fileID: 2800000, guid: d58331c7e69c6b84e8402f75488e551a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9ad7b44e3253d5f4088b63f90fcb84bd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 203276a199e434043a3ddfd4957e5145, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -40,14 +44,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _OutlinePixel: 1.45
-    - _OutlineThinkness: 1.23
+    m_Floats: []
     m_Colors:
-    - _OutlineColor: {r: 0, g: 1.1282319, b: 1.5157166, a: 0}
-    - _OutlineColor2: {r: 1.5501788, g: 2.6082375, b: 2.0146737, a: 0}
+    - _Color: {r: 0, g: 0.9911022, b: 0.9911022, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &1573622025557350348
+--- !u!114 &8472239965557098284
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

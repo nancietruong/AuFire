@@ -14,7 +14,6 @@ public class UIManager : Singleton<UIManager>
         if (gameOverScreen != null)
         {
             gameOverScreen.SetActive(true);
-            Time.timeScale = 0f;
         }
     }
 

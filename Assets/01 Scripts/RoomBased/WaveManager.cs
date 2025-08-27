@@ -40,9 +40,11 @@ public class WaveManager : Singleton<WaveManager>
             for (int i = 0; i < enemyGroup.count; i++)
             {
                 Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
-                GameObject enemy = Instantiate(enemyGroup.enemyPrefab, point.position, Quaternion.identity);
+                //GameObject enemy = Instantiate(enemyGroup.enemyPrefab, point.position, Quaternion.identity);
+                EnemyController enemy = ObjectPooling.Instance.GetCOMP<EnemyController>(enemyGroup.enemyPrefab.GetComponent<EnemyController>());
                 enemiesAlive++;
-                enemy.GetComponent<EnemyController>().Init(this);
+                enemy.ResetEnemy(point.position, this);
+                //enemy.GetComponent<EnemyController>().Init(this);
                 yield return new WaitForSeconds(enemyGroup.spawnRate);
             }
         }

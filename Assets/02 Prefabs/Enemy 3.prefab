@@ -191,7 +191,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 485232235
-  m_SortingLayer: 4
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a045fe61b7e0c7247b7fefd81505f44c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -359,12 +359,20 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  detectionRange: 6
+  detectionRange: 9
+  attackRange: 6
   wanderRadius: 3
   wanderInterval: 2
   lootTable:
   - itemPrefab: {fileID: 7975492365436951013, guid: a13ce813f7367ea4993fd86fd4cf7443, type: 3}
     dropChance: 57
+  projectilePrefab: {fileID: -2739857977152678627, guid: 500c5a56bf65ec445810ec525e40d045, type: 3}
+  projectileSpeed: 8
+  projectileDamage: 10
+  projectileLifetime: 2
+  attackCooldown: 1.5
+  knockbackForce: 8
+  knockbackDuration: 0.15
 --- !u!114 &8906251274344402593
 MonoBehaviour:
   m_ObjectHideFlags: 0

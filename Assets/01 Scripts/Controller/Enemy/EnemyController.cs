@@ -9,11 +9,12 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     Rigidbody2D enemy;
     Vector2 movement;
     [SerializeField] float speed;
-    [SerializeField] Transform player;
+    [SerializeField] public Transform player;
     EnemyAnimation enemyAnimation;
     public StateMachine<EnemyController> enemyStateMachine;
     [SerializeField] MaterialTintColor materialTintColor;
     [SerializeField] Transform avatar;
+    Animator animator;
 
     [Header("Health Settings")]
     public float health;
@@ -22,8 +23,8 @@ public class EnemyController : MonoBehaviour, ITakeDamage
 
     [Header("AI Settings")]
     [SerializeField] LayerMask layerMask, playerLayerMask;
-    [SerializeField] float detectionRange;
-
+    [SerializeField] public float detectionRange;
+    public float attackRange;
 
     [Header("Wander Settings")]
     [SerializeField] float wanderRadius = 3f;
@@ -34,6 +35,20 @@ public class EnemyController : MonoBehaviour, ITakeDamage
     [Header("Loot Settings")]
     public List<LootItem> lootTable = new List<LootItem>();
 
+    [Header("Attack Settings")]
+    public EnemyProjectile projectilePrefab;
+    public float projectileSpeed = 8f;
+    public float projectileDamage = 10f;
+    public float projectileLifetime = 2f;
+    public float attackCooldown = 1.5f;
+    private float attackTimer = 0f;
+
+    [Header("Knockback Settings")]
+    [SerializeField] float knockbackForce = 8f;
+    [SerializeField] float knockbackDuration = 0.15f;
+    private float knockbackTimer = 0f;
+    private Vector2 knockbackDirection;
+
     private WaveManager waveManager;
     private bool isDead = false;
 
@@ -43,6 +58,7 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         enemyAnimation = GetComponent<EnemyAnimation>();
         materialTintColor = GetComponent<MaterialTintColor>();
         enemyHealth = GetComponentInChildren<EnemyHealth>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -54,9 +70,17 @@ public class EnemyController : MonoBehaviour, ITakeDamage
 
     private void Update()
     {
+        if (GameManager.State != GameState.Playing) return;
         enemyStateMachine.UpdateState();
-        FindPlayer();   
+        FindPlayer();
         enemyAnimation.UpdateBlendTree(enemy.velocity.sqrMagnitude);
+
+        if (knockbackTimer > 0f)
+        {
+            knockbackTimer -= Time.deltaTime;
+            return;
+        }
+
         if (isDetectObstacle())
         {
             player = null;
@@ -69,11 +93,34 @@ public class EnemyController : MonoBehaviour, ITakeDamage
                 player = null;
             }
         }
+
+        if (attackTimer > 0f)
+            attackTimer -= Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
+        if (GameManager.State != GameState.Playing)
+        {
+            enemy.velocity = Vector2.zero;
+            if (enemyAnimation != null)
+            {
+                if (animator != null) animator.speed = 0f;
+            }
+            return;
+        }
+
+        if (knockbackTimer > 0f)
+        {
+            enemy.velocity = knockbackDirection * knockbackForce;
+            return;
+        }
+
         enemy.velocity = movement * speed;
+        if (enemyAnimation != null)
+        {
+            if (animator != null) animator.speed = 1f;
+        }
     }
 
     public bool FindPlayer()
@@ -189,7 +236,22 @@ public class EnemyController : MonoBehaviour, ITakeDamage
                 }
             }
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public void Attack()
+    {
+        FlipToPlayer();
+        if (attackTimer > 0f) return;
+        if (player == null) return;
+
+        Vector2 firePos = transform.position;
+        Vector2 dir = ((Vector2)player.position - firePos).normalized;
+
+        EnemyProjectile projectile = ObjectPooling.Instance.GetCOMP<EnemyProjectile>(projectilePrefab);
+        projectile.ShootProjectile(firePos, dir, projectileSpeed, projectileDamage, projectileLifetime);
+
+        attackTimer = attackCooldown;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -199,11 +261,44 @@ public class EnemyController : MonoBehaviour, ITakeDamage
         {
             damagable.TakeDamage(20f);
         }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Vector2 dir = (transform.position - collision.transform.position).normalized;
+            ApplyKnockback(dir);
+        }
+    }
+
+    public void ApplyKnockback(Vector2 direction)
+    {
+        knockbackDirection = direction;
+        knockbackTimer = knockbackDuration;
+    }
+
+    public void ResetEnemy(Vector3 position, WaveManager manager)
+    {
+        transform.position = position;
+        health = maxHealth;
+        isDead = false;
+        waveManager = manager;
+        player = null;
+        knockbackTimer = 0f;
+        movement = Vector2.zero;
+        if (enemyStateMachine == null)
+            enemyStateMachine = new StateMachine<EnemyController>(this);
+        enemyStateMachine.ChangeState(new PatrolState());
+        gameObject.SetActive(true);
+
+        if (enemyHealth == null)
+            enemyHealth = GetComponentInChildren<EnemyHealth>();
+        if (enemyHealth != null)
+            enemyHealth.UpdateHealthBar(health, maxHealth);
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

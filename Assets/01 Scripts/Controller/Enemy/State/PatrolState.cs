@@ -11,11 +11,21 @@ public class PatrolState : IState<EnemyController>
 
     public void Execute(EnemyController enemy)
     {
+        if (GameManager.State != GameState.Playing) return;
 
         enemy.Patrol();
+
         if (enemy.FindPlayer())
         {
-            enemy.enemyStateMachine.ChangeState(new ChaseState());
+            float distance = Vector2.Distance(enemy.transform.position, enemy.player.position);
+            if (distance <= enemy.attackRange)
+            {
+                enemy.enemyStateMachine.ChangeState(new AttackState());
+            }
+            else
+            {
+                enemy.enemyStateMachine.ChangeState(new ChaseState());
+            }
             return;
         }
     }

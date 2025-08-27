@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class PlayerController : MonoBehaviour, ITakeDamage
 {
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     [SerializeField] float speed;
     public PlayerAnimation playerAnimation;
     [SerializeField] MaterialTintColor materialTintColor;
+    Animator animator;
 
     [Header("Player Health")]
     public float health;
@@ -59,6 +61,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
         playerAnimation = GetComponent<PlayerAnimation>();
         playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         materialTintColor = GetComponent<MaterialTintColor>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Start is called before the first frame update
@@ -125,6 +128,19 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.State != GameState.Playing)
+        {
+            playerRB.velocity = Vector2.zero;
+            if (playerAnimation != null)
+            {
+                if (animator != null) animator.speed = 0f;
+            }
+            return;
+        }
+        if (playerAnimation != null)
+        {
+            if (animator != null) animator.speed = 1f;
+        }
         playerStateMachine.UpdateState();
         FlippedMoving();
         playerAnimation.UpdateBlendTree();
@@ -144,7 +160,6 @@ public class PlayerController : MonoBehaviour, ITakeDamage
             Item selectedItem = inventoryManager.GetSelectedItem(false);
             if (selectedItem != null && selectedItem.isConsumable && selectedItem.onUseItem == Item.ActionType.Heal)
             {
-                
                 inventoryManager.GetSelectedItem(true);
                 Heal(potionHealAmount);
             }
@@ -216,13 +231,14 @@ public class PlayerController : MonoBehaviour, ITakeDamage
     {
         health -= damage;
         materialTintColor.SetTintColor(new Color(1, 0, 0, 1));
-        playerHealthUI.UpdateHealthBar(health, maxHealth);
         AudioManager.PlaySound(TypeOfSoundEffect.Hurt);
         if (health <= 0)
         {
+            health = 0;
             OnPlayerDeath?.Invoke();
             AudioManager.PlaySound(TypeOfSoundEffect.Death);
         }
+        playerHealthUI.UpdateHealthBar(health, maxHealth);
     }
 
     public void Heal(float healAmount)
@@ -234,5 +250,10 @@ public class PlayerController : MonoBehaviour, ITakeDamage
             health = maxHealth;
         }
         playerHealthUI.UpdateHealthBar(health, maxHealth);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnGameReset -= ResetHealth;
     }
 }
