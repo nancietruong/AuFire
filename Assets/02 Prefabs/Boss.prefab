@@ -261,12 +261,12 @@ MonoBehaviour:
   - itemPrefab: {fileID: 7975492365436951013, guid: a13ce813f7367ea4993fd86fd4cf7443, type: 3}
     dropChance: 100
   projectilePrefab: {fileID: -2739857977152678627, guid: 500c5a56bf65ec445810ec525e40d045, type: 3}
-  projectileSpeed: 8
-  projectileDamage: 10
+  projectileSpeed: 10
+  projectileDamage: 20
   projectileLifetime: 2
   attackCooldown: 1.5
-  knockbackForce: 8
-  knockbackDuration: 0.15
+  knockbackForce: 0
+  knockbackDuration: 0
 --- !u!114 &2111896623106852105
 MonoBehaviour:
   m_ObjectHideFlags: 0
