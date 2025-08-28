@@ -147,6 +147,8 @@ public class PlayerController : MonoBehaviour, ITakeDamage
 
         if (Input.GetMouseButton(0))
         {
+            if (GameManager.State != GameState.Playing || Time.timeScale == 0f) return;
+
             if (gun != null && gun.item != null && gun.item.itemType == Item.ItemType.Weapon)
             {
                 gun.Shoot();
@@ -155,7 +157,7 @@ public class PlayerController : MonoBehaviour, ITakeDamage
 
         PlayerDodgeRoll();
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H) || Input.GetMouseButtonDown(0))
         {
             Item selectedItem = inventoryManager.GetSelectedItem(false);
             if (selectedItem != null && selectedItem.isConsumable && selectedItem.onUseItem == Item.ActionType.Heal)

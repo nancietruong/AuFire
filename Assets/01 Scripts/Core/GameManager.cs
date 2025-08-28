@@ -57,7 +57,6 @@ public class GameManager : Singleton<GameManager>
         SceneManager.LoadScene(0);
         State = GameState.Paused;
     }
-
     private void OnDestroy()
     {
         player.OnPlayerDeath -= HandlePlayerDeath;

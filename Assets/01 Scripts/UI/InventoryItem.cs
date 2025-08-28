@@ -16,6 +16,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public Item item;
     [HideInInspector] public int count = 1;
 
+    private void Awake()
+    {
+        countText = GetComponentInChildren<Text>();
+    }
+
     public void InitItem(Item newItem)
     {
         item = newItem;

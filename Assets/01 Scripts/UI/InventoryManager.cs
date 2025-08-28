@@ -34,8 +34,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             ToggleInventory();
+            Time.timeScale = isMainInventoryOpen ? 0 : 1;
         }
-        Time.timeScale = isMainInventoryOpen ? 0 : 1;
         SelectSlotWithNumber();
 
     }

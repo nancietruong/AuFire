@@ -9,6 +9,8 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] GameObject winGameScreen;
+    [SerializeField] GameObject audioSetting;
+    bool isAudioSettingOpen = false;
     public void ShowGameOverScreen()
     {
         if (gameOverScreen != null)
@@ -25,7 +27,33 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleAudioSettings();
+        }
+    }
 
+    public void ToggleAudioSettings()
+    {
+        if (audioSetting != null)
+        {
+            isAudioSettingOpen = !isAudioSettingOpen;
+            audioSetting.SetActive(isAudioSettingOpen);
+
+            Time.timeScale = isAudioSettingOpen ? 0 : 1;
+        }
+    }
+
+    public void CloseAudioSettings()
+    {
+        if (audioSetting != null)
+        {
+            audioSetting.SetActive(false);
+        }
+        Time.timeScale = 1;
+    }
     void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
         if (gameOverScreen != null)
